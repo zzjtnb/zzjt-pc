@@ -12,7 +12,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import Vant from 'vant'
 import 'vant/lib/index.css'
+import CommentGrid from 'vue-comment-grid'
 
+Vue.use(CommentGrid)
 Vue.use(Vant)
 Vue.use(ElementUI)
 Vue.use(mavonEditor)
