@@ -106,8 +106,8 @@ export default {
         console.log("this.searchKey=" + this.searchKey)
         this.blogs[i].hide = this.blogs[i].title.toUpperCase().indexOf(this.searchKey.toUpperCase()) < 0
       }
-     this.query.pageSize=1
-     this.query.pageNumber=0
+      this.query.pageSize = 1
+      this.query.pageNumber = 0
     },
     list () {
       this.blogs = []
