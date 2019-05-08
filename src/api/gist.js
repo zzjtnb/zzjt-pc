@@ -2,6 +2,12 @@ import request from '@/utils/request'
 import store from '../store/index'
 
 export default {
+    allList: function (allQuery) {
+        let githubUsername = store.state.configuration.githubUsername
+        return request({
+            url: `/users/${githubUsername}/gists?page=${allQuery.page}&per_page=${allQuery.pageSize}`
+        })
+    },
     list: function (query) {
         let githubUsername = store.state.configuration.githubUsername
         return request({

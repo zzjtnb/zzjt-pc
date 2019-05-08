@@ -2,6 +2,7 @@
   <div style="min-height: 600px" v-loading="loading">
     <el-card shadow="never" style="margin-bottom: 20px">
       <el-input placeholder="请输入关键字" v-model="searchKey" clearable style="width: 300px"></el-input>
+      <!-- <input id="searchData" type="text" placeholder="搜索一下" name="word" @keyup="listenWords" v-model="searchKey" /> -->
       <el-button @click="search" icon="el-icon-search" style="margin-left: 10px" circle plain></el-button>
       <el-button @click="$share()" style="margin-left: 10px" icon="el-icon-share" type="warning" plain circle></el-button>
       <el-button type="primary" icon="el-icon-edit" round plain style="float: right;" @click="goAdd">写博文</el-button>
@@ -29,7 +30,7 @@
         <div style="font-size: 1.1rem;line-height: 1.5;color: #303133;padding: 10px 0px 0px 0px"> {{item.description}} </div>
       </el-card>
       <div style="text-align: center">
-        <el-pagination @current-change="list" background layout="prev, pager, next" :current-page.sync="query.page" :page-size="query.pageSize" :total="query.pageNumber*query.pageSize" v-if="query.pageNumber*query.pageSize!=0">
+        <el-pagination @current-change="list" background layout="prev, pager, next" :current-page.sync="query.page" :page-size="query.pageSize" :total="query.pageNumber*query.pageSize" :hide-on-single-page="HidePageValue" v-if="query.pageNumber*query.pageSize!=0">
         </el-pagination>
       </div>
     </div>
@@ -53,7 +54,11 @@ export default {
       },
       loading: false,
       searchKey: "",
-      blogs: []
+      HidePageValue: false,
+      blogs: [],
+      BlogData: [],
+      allBlogs: [],
+
     }
   },
   computed: {
@@ -63,11 +68,47 @@ export default {
   },
   created () {
     this.query.page = this.getContextData("page") || 1
+    console.log()
+    if (!this.getContextData("BlogData")) {
+      this.allList()
+    }
   },
   mounted () {
     this.list()
   },
   methods: {
+    allList () {
+      this.BlogData = []
+      this.loading = true
+      let allQuery = { page: 1, pageSize: 500 }
+      GistApi.allList(allQuery).then((response) => {
+        let result = response.data
+        for (let i = 0; i < result.length; i++) {
+          for (let key in result[i].files) {
+            let data = {}
+            data['title'] = key
+            data['url'] = result[i].files[key]
+            data['description'] = result[i]['description']
+            data['id'] = result[i]['id']
+            data['createTime'] = this.$util.utcToLocal(result[i]['created_at'])
+            data['updateTime'] = this.$util.utcToLocal(result[i]['updated_at'])
+            data['hide'] = false
+            this.BlogData.push(data)
+            this.setContextData("BlogData", this.BlogData)
+            break
+          }
+        }
+      }).then(() => this.loading = false)
+    },
+    search () {
+      this.blogs = this.getContextData("BlogData")
+      for (let i = 0; i < this.blogs.length; i++) {
+        console.log("this.searchKey=" + this.searchKey)
+        this.blogs[i].hide = this.blogs[i].title.toUpperCase().indexOf(this.searchKey.toUpperCase()) < 0
+      }
+     this.query.pageSize=1
+     this.query.pageNumber=0
+    },
     list () {
       this.blogs = []
       this.loading = true
@@ -92,12 +133,9 @@ export default {
             break
           }
         }
-      }).then(() => this.loading = false)
-    },
-    search () {
-      for (let i = 0; i < this.blogs.length; i++) {
-        this.blogs[i].hide = this.blogs[i].title.indexOf(this.searchKey) < 0
-      }
+      }).then(() =>
+        this.loading = false,
+      )
     },
     editBlog (index) {
       if (!this.token) {
@@ -157,7 +195,25 @@ export default {
         }
       }
       return;
-    }
+    },
+    //回车搜索
+    listenWords: function (event) {
+      console.log("listen keyup");
+      var that = this;
+      var searchInput = document.getElementById("searchData");
+      event = window.event || event;
+      if (event.keyCode == 13) {   // enter
+        event.preventDefault();
+        that.search();
+      }
+      if (event.keyCode == 8) {   // backspace
+        console.log(searchInput.value.length);
+        if (searchInput.value.length == 0) {
+          searchInput.blur();
+          searchInput.focus();
+        }
+      }
+    },
   },
 
 }
