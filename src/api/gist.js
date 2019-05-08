@@ -8,6 +8,10 @@ export default {
             url: `/users/${githubUsername}/gists?page=${allQuery.page}&per_page=${allQuery.pageSize}`
         })
     },
+    /**
+     *  query.page  第几页
+     *  query.pageSize 每页几条
+     */
     list: function (query) {
         let githubUsername = store.state.configuration.githubUsername
         return request({

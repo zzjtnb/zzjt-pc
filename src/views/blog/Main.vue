@@ -30,7 +30,12 @@
         <div style="font-size: 1.1rem;line-height: 1.5;color: #303133;padding: 10px 0px 0px 0px"> {{item.description}} </div>
       </el-card>
       <div style="text-align: center">
-        <el-pagination @current-change="list" background layout="prev, pager, next" :current-page.sync="query.page" :page-size="query.pageSize" :total="query.pageNumber*query.pageSize" :hide-on-single-page="HidePageValue" v-if="query.pageNumber*query.pageSize!=0">
+        <!-- <el-pagination @current-change="list" background layout="prev, pager, next" :current-page.sync="query.page" :page-size="query.pageSize" :total="total" :hide-on-single-page="HidePageValue" v-if="query.pageNumber*query.pageSize!=0">
+        </el-pagination> -->
+        <!-- <span class="demonstration">完整功能</span>
+        <el-pagination @size-change="handleSizeChange" @current-change="list" :current-page.sync="query.page" :page-sizes="[5, 20, 30, 40]" :page-size="query.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="query.pageNumber*query.pageSize" v-if="query.pageNumber*query.pageSize!=0">
+        </el-pagination> -->
+        <el-pagination @size-change="handleSizeChange" @current-change="list" :current-page.sync="query.page" :page-sizes="[5, 20, 30, 40]" :page-size="query.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="123" v-if="query.pageNumber*query.pageSize!=0">
         </el-pagination>
       </div>
     </div>
@@ -58,6 +63,8 @@ export default {
       blogs: [],
       BlogData: [],
       allBlogs: [],
+      total: 0,
+      pageNumber: 0
 
     }
   },
@@ -68,7 +75,6 @@ export default {
   },
   created () {
     this.query.page = this.getContextData("page") || 1
-    console.log()
     if (!this.getContextData("BlogData")) {
       this.allList()
     }
@@ -103,11 +109,17 @@ export default {
     search () {
       this.blogs = this.getContextData("BlogData")
       for (let i = 0; i < this.blogs.length; i++) {
-        console.log("this.searchKey=" + this.searchKey)
         this.blogs[i].hide = this.blogs[i].title.toUpperCase().indexOf(this.searchKey.toUpperCase()) < 0
       }
       this.query.pageSize = 1
       this.query.pageNumber = 0
+    },
+    handleSizeChange (val) {
+      this.query.page = 1
+      this.query.pageSize = val
+      // this.total = this.query.pageNumber * this.query.pageSize
+      // console.log(`每页 ${val} 条`);
+      this.list()
     },
     list () {
       this.blogs = []
@@ -115,9 +127,11 @@ export default {
       this.setContextData("page", this.query.page)
       GistApi.list(this.query).then((response) => {
         let result = response.data
-        let pageNumber = this.$util.parseHeaders(response.headers)
-        if (pageNumber) {
-          this.query.pageNumber = pageNumber
+        console.log(response.headers)
+        this.pageNumber = this.$util.parseHeaders(response.headers)
+        console.log(" this.pageNumber=" + this.pageNumber)
+        if (this.pageNumber) {
+          this.query.pageNumber = this.pageNumber
         }
         for (let i = 0; i < result.length; i++) {
           for (let key in result[i].files) {
@@ -133,9 +147,7 @@ export default {
             break
           }
         }
-      }).then(() =>
-        this.loading = false,
-      )
+      }).then(() => this.loading = false)
     },
     editBlog (index) {
       if (!this.token) {
