@@ -23,22 +23,11 @@
       <div style="font-size: 1.1rem;line-height: 1.5;color: #303133;border-bottom: 1px solid #E4E7ED;padding: 5px 0px 5px 0px">
         <pre style="font-family: '微软雅黑'">{{blog.description}}</pre>
       </div>
-      <div v-html="blog.content" class="markdown-body" style="padding-top: 20px"></div>
+      <div class="markdown-body" style="padding-top: 20px">
+        <mavon-editor :ishljs="true" :codeStyle="true" codeStyle="agate" v-html="blog.content"></mavon-editor>
+      </div>
       <!-- add -->
-      <comment-grid
-        baseURL="https://zzjt-nb.firebaseio.com"
-        apiKey="AIzaSyB5kPO0QunemrZpS0oCJWkSPdoLz2jvSg4"
-        nodeName="comment"
-        maxUserNameLength="30"
-        maxCommentLength="10000"
-        initialMessageLimit="11"
-        maxLineLimit="40"
-        maxShowingDepth="5"
-        background="rgba(255, 255, 255, 0)"
-        commentBackgroundColor="rgba(255, 255, 255, 1)"
-        commentTextColor="rgba(29, 33, 41, 1)"
-        userNameColor="rgba(6, 177, 183, 1)"
-      ></comment-grid>
+      <comment-grid baseURL="https://zzjt-nb.firebaseio.com" apiKey="AIzaSyB5kPO0QunemrZpS0oCJWkSPdoLz2jvSg4" nodeName="comment" maxUserNameLength="30" maxCommentLength="10000" initialMessageLimit="11" maxLineLimit="40" maxShowingDepth="5" background="rgba(255, 255, 255, 0)" commentBackgroundColor="rgba(255, 255, 255, 1)" commentTextColor="rgba(29, 33, 41, 1)" userNameColor="rgba(6, 177, 183, 1)"></comment-grid>
     </el-card>
   </div>
 </template>
@@ -46,7 +35,7 @@
 import { mapGetters } from 'vuex'
 import GistApi from '@/api/gist'
 export default {
-  data() {
+  data () {
     return {
       blog: {
         id: '',
@@ -60,7 +49,7 @@ export default {
   computed: {
     ...mapGetters(['token'])
   },
-  mounted() {
+  mounted () {
     this.loading = true
     this.blog.id = this.$route.params.id
     // console.log(this.$route.params.id)
@@ -80,7 +69,7 @@ export default {
       .then(() => (this.loading = false))
   },
   methods: {
-    edit() {
+    edit () {
       if (!this.token) {
         this.$message({
           message: '请绑定有效的Token',
@@ -90,7 +79,7 @@ export default {
       }
       this.$router.push('/user/blog/edit/' + this.blog.id)
     },
-    more() {
+    more () {
       this.$router.push('/user/blog/main')
     }
   }
