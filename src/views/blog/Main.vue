@@ -35,7 +35,7 @@
         <!-- <span class="demonstration">完整功能</span>
         <el-pagination @size-change="handleSizeChange" @current-change="list" :current-page.sync="query.page" :page-sizes="[5, 20, 30, 40]" :page-size="query.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="query.pageNumber*query.pageSize" v-if="query.pageNumber*query.pageSize!=0">
         </el-pagination> -->
-        <el-pagination @size-change="handleSizeChange" @current-change="list" :current-page.sync="query.page" :page-sizes="[5, 20, 30, 40]" :page-size="query.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="123" v-if="query.pageNumber*query.pageSize!=0">
+        <el-pagination @size-change="handleSizeChange" @current-change="list" :current-page.sync="query.page" :page-sizes="[5, 20, 30, 40]" :page-size="query.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="query.pageNumber*query.pageSize" v-if="query.pageNumber*query.pageSize!=0">
         </el-pagination>
       </div>
     </div>
