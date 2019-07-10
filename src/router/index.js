@@ -27,8 +27,7 @@ import MobileSelfMain from '@/mobile_views/self/Main'
 
 Vue.use(Router)
 
-export const constantRouterMap = [
-  {
+export const constantRouterMap = [{
     path: '/user/new',
     redirect: '/user/new/main',
     component: Layout,
@@ -37,35 +36,13 @@ export const constantRouterMap = [
       icon: 'el-icon-star-off',
       title: '最新动态'
     },
-    children: [
-      {
-        path: 'main',
-        component: NewMain,
-        meta: { title: '最新动态' }
+    children: [{
+      path: 'main',
+      component: NewMain,
+      meta: {
+        title: '最新动态'
       }
-    ]
-  },
-  {
-    path: '/user/social',
-    redirect: '/user/social/main',
-    component: Layout,
-    meta: {
-      type: 'user',
-      icon: 'el-icon-mobile-phone',
-      title: '社交圈'
-    },
-    children: [
-      {
-        path: 'main',
-        component: SocialMain,
-        meta: { title: '社交圈' }
-      },
-      {
-        path: 'details/:name',
-        component: SocialDetails,
-        meta: { title: '用户资料' }
-      }
-    ]
+    }]
   },
   {
     path: '/user/blog',
@@ -76,26 +53,33 @@ export const constantRouterMap = [
       icon: 'el-icon-edit-outline',
       title: '博客列表'
     },
-    children: [
-      {
+    children: [{
         path: 'main',
         component: BlogMain,
-        meta: { title: '博客列表' }
+        meta: {
+          title: '博客列表'
+        }
       },
       {
         path: 'add',
         component: BlogAdd,
-        meta: { title: '发表博客' }
+        meta: {
+          title: '发表博客'
+        }
       },
       {
         path: 'edit/:id',
         component: BlogEdit,
-        meta: { title: '编辑博客' }
+        meta: {
+          title: '编辑博客'
+        }
       },
       {
         path: 'details/:id',
         component: BlogDetails,
-        meta: { title: '博客详情' }
+        meta: {
+          title: '博客详情'
+        }
       }
     ]
   },
@@ -108,16 +92,44 @@ export const constantRouterMap = [
       icon: 'el-icon-service',
       title: '开源项目'
     },
-    children: [
-      {
+    children: [{
         path: 'main',
         component: ProjectMain,
-        meta: { title: '项目列表' }
+        meta: {
+          title: '项目列表'
+        }
       },
       {
         path: 'details/:name',
         component: ProjectDetails,
-        meta: { title: '项目详情' }
+        meta: {
+          title: '项目详情'
+        }
+      }
+    ]
+  },
+  {
+    path: '/user/social',
+    redirect: '/user/social/main',
+    component: Layout,
+    meta: {
+      type: 'user',
+      icon: 'el-icon-mobile-phone',
+      title: '社交圈'
+    },
+    children: [{
+        path: 'main',
+        component: SocialMain,
+        meta: {
+          title: '社交圈'
+        }
+      },
+      {
+        path: 'details/:name',
+        component: SocialDetails,
+        meta: {
+          title: '用户资料'
+        }
       }
     ]
   },
@@ -131,13 +143,13 @@ export const constantRouterMap = [
       title: '使用帮助',
       mini: true
     },
-    children: [
-      {
-        path: 'main',
-        component: HelperMain,
-        meta: { title: '使用帮助' }
+    children: [{
+      path: 'main',
+      component: HelperMain,
+      meta: {
+        title: '使用帮助'
       }
-    ]
+    }]
   },
   //   {
   //     path: '/user/readme',
@@ -184,13 +196,13 @@ export const constantRouterMap = [
       title: '系统配置',
       LoginRequired: true
     },
-    children: [
-      {
-        path: 'main',
-        component: ConfigureMain,
-        meta: { title: '系统配置' }
+    children: [{
+      path: 'main',
+      component: ConfigureMain,
+      meta: {
+        title: '系统配置'
       }
-    ]
+    }]
   },
 
   {
@@ -216,8 +228,7 @@ export const constantRouterMap = [
       icon: 'edit',
       title: '博客'
     },
-    children: [
-      {
+    children: [{
         path: 'main',
         component: MobileBlogMain,
         meta: {
@@ -242,8 +253,7 @@ export const constantRouterMap = [
       icon: 'like-o',
       title: '项目'
     },
-    children: [
-      {
+    children: [{
         path: 'main',
         component: MobileProjectMain,
         meta: {
@@ -268,23 +278,24 @@ export const constantRouterMap = [
       icon: 'contact',
       title: '个人'
     },
-    children: [
-      {
-        path: 'main',
-        component: MobileSelfMain,
-        meta: {
-          scrollTop: true
-        }
+    children: [{
+      path: 'main',
+      component: MobileSelfMain,
+      meta: {
+        scrollTop: true
       }
-    ]
+    }]
   }
 ]
 
 const router = new Router({
   routes: constantRouterMap,
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (to.meta.scrollTop) {
-      return { x: 0, y: 0 }
+      return {
+        x: 0,
+        y: 0
+      }
     }
   }
 })

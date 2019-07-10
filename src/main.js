@@ -13,11 +13,12 @@ import 'element-ui/lib/theme-chalk/index.css'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 import CommentGrid from 'vue-comment-grid'
-
+import VueDisqus from 'vue-disqus'
 Vue.use(CommentGrid)
 Vue.use(Vant)
 Vue.use(ElementUI)
 Vue.use(mavonEditor)
+Vue.use(VueDisqus)
 
 Vue.prototype.$markdown = function (value) {
   return mavonEditor.markdownIt.render(value)
@@ -86,6 +87,8 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })
