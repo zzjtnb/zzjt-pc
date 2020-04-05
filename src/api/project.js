@@ -24,7 +24,7 @@ export default {
         // 用xxx.github.io为项目地址时的请求地址
         // githubUsername +
         // '.github.io/contents/static/configuration.json'
-        'zzjt-pc/contents/static/configuration.json'
+        'zzjtnb_build/contents/static/configuration.json'
     })
   },
   //   更改系统设置
@@ -38,7 +38,7 @@ export default {
         '/' +
         // githubUsername +
         // '.github.io/contents/static/configuration.json',
-        'zzjt-pc/contents/static/configuration.json',
+        'zzjtnb_build/contents/static/configuration.json',
       method: 'PUT',
       data: {
         message: 'a',
@@ -53,7 +53,7 @@ export default {
     return request({
       url: `/users/${githubUsername}/repos?page=${query.page}&per_page=${
         query.pageSize
-      }`
+        }`
     })
   },
   single: function (name) {
