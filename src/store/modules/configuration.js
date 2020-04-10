@@ -59,7 +59,7 @@ const configuration = {
       } else {
         xmlhttp = new ActiveXObject('Microsoft.XMLHTTP')
       }
-      xmlhttp.open('GET', 'https://raw.githubusercontent.com/zzjtnb/zzjtnb_build/master/static/configuration.json', false)
+      xmlhttp.open('GET', 'https://raw.githubusercontent.com/zzjtnb/zzjtnb_build/master/data/configuration.json', false)
       xmlhttp.send()
       let configuration = JSON.parse(xmlhttp.responseText)
       commit('SET_CONFIGURATION', configuration)
